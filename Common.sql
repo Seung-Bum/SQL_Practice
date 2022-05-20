@@ -89,4 +89,12 @@ WHERE EX.KOR IN (SELECT EX.KOR
                           FROM EXAM_RSLT EX
                           WHERE EX.KOR > 50); */
 
-                          
+/* GROUP BY, HAVING절 
+클래스 별로 국어점수 합계 구하기 
+HAVING 절로 국어점수 합계가 200 이상인 반 구하기 */
+SELECT CLASS, SUM(KOR) SUM_KOR
+FROM EXAM_RSLT
+GROUP BY CLASS
+HAVING SUM(KOR) > 200;
+
+

@@ -1,0 +1,5 @@
+SELECT A || ' X ' || B || ' = ' || A * B AS GOOGOODAN
+FROM
+(SELECT LEVEL + 1 A FROM DUAL CONNECT BY LEVEL < 9) a, -- A: 2단부터 시작
+(SELECT LEVEL B FROM DUAL CONNECT BY LEVEL <= 9) b;    -- B: 1~9까지
+-- 인라인뷰 
