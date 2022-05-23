@@ -56,5 +56,11 @@ SELECT REPLACE('SDAF','A','=>') -- SD=>F 지정된 문자열 치환
       ,TRANSLATE('SDAF','A','=>') -- SD=F 지정된 문자 치환
 FROM DUAL; */
 
-
+/* 실습 
+SELECT VAR_PHONE ORG_STR
+         , TRANSLATE(VAR_PHONE, '123', '*') STR1 -- 1을 찾고 그 뒤로는 공백 / 안9녕8하7세6요5 4H3 2입1니0다
+         , TRANSLATE(VAR_PHONE, '123456789'||VAR_PHONE, '123456789') STR2 -- 숫자만남기기 987654321
+         , TRANSLATE(VAR_PHONE, '12345', '@#$%&') STR3 -- 특수문자 껴넣기 안9녕8하7세6요& %H$ #입@니0다
+         , TRANSLATE(VAR_PHONE, '123', 'ABC') STR4 -- 안9녕8하7세6요5 4HC B입A니0다
+FROM (SELECT '안9녕8하7세6요5 4H3 2입1니0다' AS VAR_PHONE FROM DUAL) */
 

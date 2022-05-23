@@ -108,6 +108,8 @@ SELECT ENAME COL1 -- JONES
      , JOB COL6 -- 매니저
      , SUBSTR(JOB, -3, 1) COL7 -- 매
   FROM EMP */
-  
-  
+
+
+
+
 
