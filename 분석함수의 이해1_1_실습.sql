@@ -1,39 +1,6 @@
-SELECT MIN(NO)
-      ,DECODE(SEQ,1,NO,NO+1) SEQ
-      ,MAX(DECODE(SEQ,1,NAME)) NAME
-      ,MIN(DECODE(SEQ,1,KOR))
-      ,MIN(DECODE(SEQ,2,KOR))
-      ,MIN(DECODE(SEQ,1,ENG)) ENG1
-      ,MIN(DECODE(SEQ,2,ENG)) ENG2
-      ,MIN(DECODE(SEQ,1,MAT))
-      ,MIN(DECODE(SEQ,2,MAT))
-      ,MIN(DECODE(SEQ,2,ENG)) - MIN(DECODE(SEQ,1,ENG)) CHA
-FROM (
-  SELECT ROWNUM NO
-    ,NAME
-    ,KOR
-    ,ENG
-    ,MAT
-  FROM (
-    SELECT ROWNUM NO
-    ,NAME
-    ,KOR
-    ,ENG
-    ,MAT
-    FROM (
-    
-    ) ) )
-GROUP BY DECODE(SEQ,1,NO,NO+1)
-HAVING MAX(DECODE(SEQ,1,NAME)) IS NOT NULL
-ORDER BY SEQ
-
--- 분석함수
-SELECT *
-    ,LAG(ENG) OVER(ORDER)
-    
 -- 뷰만들기 보기 F4
-V_SAMPLE1
-V_SAMPLE2
+--V_SAMPLE1
+--V_SAMPLE2
 
 /*---------------------------------------------
 -- 오브젝트명: CZONE_USER.V_SAMPLE1

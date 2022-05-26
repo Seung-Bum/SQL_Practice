@@ -7,6 +7,7 @@ SELECT empno
      , ename
      , comm                 AS comm 
      , NVL2(comm, 'Y', 'N') As comm2 --커미션이 있으면 'Y' 없으면 'N' 
+     -- NVL은 반대 NULL 이면 Y 아니면 N
   FROM emp
 
 
