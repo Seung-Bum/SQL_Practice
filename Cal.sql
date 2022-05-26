@@ -17,7 +17,7 @@ GROUP BY WK_ID
 ORDER BY WK_ID; */
 
 
-
+-- 한달 달력 출력
 SELECT MIN(DECODE(W_ID,1,D_ID)) 일
       ,MIN(DECODE(W_ID,2,D_ID)) 월
       ,MIN(DECODE(W_ID,3,D_ID)) 화
