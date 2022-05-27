@@ -8,6 +8,7 @@
 -- 오브젝트명: 2022-05-25 21:59:39.0
 -- 상태: VALID
 ---------------------------------------------*/
+/*
 CREATE OR REPLACE FORCE EDITIONABLE VIEW "CZONE_USER"."V_SAMPLE1" ("NO", "SEQ", "NAME", "ENG1", "ENG2", "CHA") AS 
   SELECT MIN(NO) NO
       ,DECODE(SEQ,1,NO,NO+1) SEQ
@@ -34,3 +35,8 @@ FROM (
  GROUP BY DECODE(SEQ,1,NO,NO+1)
  HAVING MAX(DECODE(SEQ,1,NAME)) IS NOT NULL
  ORDER BY SEQ;
+ */
+ 
+ 
+ 
+ 
