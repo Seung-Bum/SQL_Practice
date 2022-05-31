@@ -47,7 +47,7 @@ ORDER BY MIN(NO), KOR, ENG, MAT, TOT -- 정렬을 보고싶은 컬럼 선택하면 될듯
 
 
 
-/* 분석함수 사용 
+/* 분석함수 사용  */
 SELECT DECODE(GROUPING(CLASS)||
               GROUPING(NAME),'00',NAME,'01',CLASS,'TOT') NAME -- ROW
     ,SUM(KOR) KOR -- 컬럼
@@ -56,11 +56,11 @@ SELECT DECODE(GROUPING(CLASS)||
     ,SUM(KOR + ENG + MAT) TOT -- 컬럼
     ,GROUPING(CLASS)||GROUPING(NAME) GR -- 컬럼 (GROUP BY시)
 FROM EXAM_RSLT A
-GROUP BY ROLLUP(CLASS, NAME)
-ORDER BY GR, KOR
-*/
+GROUP BY ROLLUP(CLASS, NAME) -- 00
+ORDER BY GR, KOR--00
 
-/* 위코드를 연습함 */
+
+/* 위코드를 연습함 
 SELECT 
      NAME 
     ,CLASS
@@ -69,7 +69,7 @@ SELECT
     ,SUM(KOR + ENG + MAT) TOT -- 컬럼
 FROM EXAM_RSLT A
 GROUP BY ROLLUP(CLASS, NAME) -- 홍길동의 국어 영어 수학 점수 합계를 구함 (각 학생의 (ROW))
-
+*/
 
 
 
