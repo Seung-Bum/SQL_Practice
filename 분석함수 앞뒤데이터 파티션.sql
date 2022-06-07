@@ -1,0 +1,35 @@
+/* 분석함수를 사용한 앞/뒤 데이터 차이 계산 
+SELECT NAME
+      ,DENSE_RANK() OVER(ORDER BY KOR+ENG+MAT DESC) D_RK
+      ,CLASS
+      ,KOR
+      ,ENG
+      ,MAT
+      ,KOR+ENG+MAT TOT
+      ,KOR+ENG+MAT - LAG(KOR+ENG+MAT) OVER( ORDER BY KOR+ENG+MAT DESC ) AS LAG_CHA
+FROM EXAM_RSLT
+*/
+
+/* */
+SELECT NAME
+      ,CLASS
+      ,KOR
+      ,ENG
+      ,MAT
+      ,TOT
+      ,RANK() OVER(ORDER BY TOT DESC) RK -- 전체 순위
+      ,DENSE_RANK() OVER(ORDER BY TOT DESC) D_RK
+      ,SUM(TOT) OVER(ORDER BY TOT DESC) SUM_RK
+      ,SUM(TOT) OVER(PARTITION BY CLASS ORDER BY TOT) PT_RK
+      ,RANK() OVER(PARTITION BY CLASS ORDER BY TOT) PT_PK -- 반별로 묶어서 RANK
+      ,TOT - LAG(TOT) OVER(ORDER BY TOT DESC ) AS LAG_CHA -- 이전행
+      ,TOT - LEAD(TOT) OVER(ORDER BY TOT DESC) AS LEAD_CHA -- 이후행
+FROM(
+      SELECT NAME
+          ,CLASS
+          ,KOR KOR
+          ,ENG ENG
+          ,MAT MAT
+          ,KOR + ENG + MAT TOT
+      FROM EXAM_RSLT A      
+)

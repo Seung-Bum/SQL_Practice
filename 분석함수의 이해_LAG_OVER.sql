@@ -35,18 +35,20 @@ SELECT A.* -- A의 모든 컬럼을 보여줘
 FROM HAB A
 */
 
-SELECT NAME
-      ,ENG 
-      ,LAG(ENG) OVER(ORDER BY ENG DESC) PREV-- 이전행
-      ,LAG(ENG) OVER(ORDER BY ENG DESC) - ENG CHA -- 현재 - 이전
-FROM HAB A;
+
 
 
 SELECT NAME
       ,ENG 
       ,LEAD(ENG) OVER(ORDER BY ENG DESC) NEXT_ -- 다음행
       ,ENG - LEAD(ENG) OVER(ORDER BY ENG DESC) CHA -- 현재 - 다음
-FROM HAB A
+FROM HAB A;
+
+SELECT NAME
+      ,ENG 
+      ,LAG(ENG) OVER(ORDER BY ENG DESC) PREV-- 이전행
+      ,LAG(ENG) OVER(ORDER BY ENG DESC) - ENG CHA -- 현재 - 이전
+FROM HAB A;
 
 
 /* 블로그 예제

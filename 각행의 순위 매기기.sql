@@ -1,7 +1,7 @@
 -- V_STAT_STEP3
--- 비어있는 것에 등수 더 채워라 
+-- 각행에 순위 매기기 
 -- 퀴즈 하나더 
-
+/**/
   SELECT AREA_CD
       ,CD_NM
       ,REGION_AREA
@@ -61,7 +61,7 @@ FROM (
         ,NVL(SUM(DECODE(PROD_ID,'100007',SALE_CNT)),0)C7
         ,NVL(SUM(DECODE(PROD_ID,'100008',SALE_CNT)),0)C8
         ,NVL(SUM(DECODE(PROD_ID,'100009',SALE_CNT)),0)C9
-        ,MIN(DECODE(PROD_ID,'100000',LPAD(D_RK,2,'0')||LPAD(M_RK,2,'0')||LPAD(T_RK,2,'0'))) R0
+        ,MIN(DECODE(PROD_ID,'100000',LPAD(D_RK,2,'0')||LPAD(M_RK,2,'0')||LPAD(T_RK,2,'0'))) R0 -- D_RK 03 M_RK 07 T_RK 06
         ,MIN(DECODE(PROD_ID,'100001',LPAD(D_RK,2,'0')||LPAD(M_RK,2,'0')||LPAD(T_RK,2,'0'))) R1
         ,MIN(DECODE(PROD_ID,'100002',LPAD(D_RK,2,'0')||LPAD(M_RK,2,'0')||LPAD(T_RK,2,'0'))) R2
         ,MIN(DECODE(PROD_ID,'100003',LPAD(D_RK,2,'0')||LPAD(M_RK,2,'0')||LPAD(T_RK,2,'0'))) R3
@@ -100,3 +100,6 @@ GROUP BY ROLLUP(AREA_CD,REGION_AREA)
 ORDER BY AREA_CD
         ,REGION_AREA        
 );
+
+
+
