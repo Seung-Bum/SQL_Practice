@@ -3,7 +3,7 @@
       ,REGION_AREA
       ,C0||
       ' '||DECODE(C0,GREATEST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9), '▲')
-      ||DECODE(C0,LEAST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9),'▼')||' *'||DECODE(C0,0,:v_last) -- COUNT로 PROD_ID 새는게 좋을것 같음
+      ||DECODE(C0,LEAST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9),'▼')||' *'||DECODE(C0,0,:v_last)
       ||LTRIM(DECODE(GR,'00',SUBSTR(R0,1,2),'01',SUBSTR(R0,3,2),SUBSTR(R0,5)),'0') C0 -- LTRIM으로 0 없앰
        ,C1||
        ' '||DECODE(C1,GREATEST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9), '▲')
