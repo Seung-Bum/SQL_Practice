@@ -1,0 +1,100 @@
+/* 계층 
+트리 그래프
+사이클 생성여부 사이클 허용 트리
+나로 시작해서 나한테 다시 돌아오는가
+계층형은 사이클이 없음을 전제로 한다.
+
+ 문법
+START WITH
+CONNECT BY
+PRIOR
+
+테이블 구조
+
+두가지를 지켜줘야 한다.
+
+SELECT SYS_CONNECT_BY_PATH(DGT, '->')
+FROM HIR_TST
+CONNECT BY PRIOR DGT = PDGT -- 경로를 볼 수 있다.
+START WITH PDGT IS NULL 
+;
+
+
+SELECT DGT, SYS_CONNECT_BY_PATH(DGT, '->'), LEVEL
+FROM HIR_TST
+CONNECT BY DGT = PRIOR PDGT -- 경로를 볼 수 있다.
+START WITH DGT = 6
+;
+
+
+SELECT DGT
+       ,SYS_CONNECT_BY_PATH(DGT, '->')
+       ,LPAD(' ', (LEVEL-1)*6, ' ' ) || '|-' || DGT
+FROM HIR_TST
+CONNECT BY PRIOR DGT = PDGT -- PRIOR를 어디에 붙여주냐에 따라 전개 방향이 달라짐
+START WITH PDGT IS NULL;
+;
+
+
+-- > 오류 넣어보기 무한루프
+CREATE TABLE YSB_HIR_TST AS
+SELECT *
+FROM HIR_TST
+UNION ALL
+SELECT 10, 11
+FROM DUAL;
+
+INSERT INTO YSB_HIR_TST
+*/
+
+/*
+SELECT SYS_CONNECT_BY_PATH(DGT,'/') PATH
+    ,LPAD(' ',(LEVEL-1) *6 ) || '-' || DGT
+    ,DGT, PDGT
+FROM HIR_TST
+CONNECT BY PRIOR DGT = PDGT
+START WITH DGT = 1
+;
+
+  */
+
+
+
+SELECT  MIN( RTRIM(LTRIM(SYS_CONNECT_BY_PATH(DGT,'+'), '+'), '+') || '=' || P_RESULT )  V_RESULT
+       --,LPAD(' ',(LEVEL-1) *6 ) || '-' || DGT RESULT
+       --,DGT
+       --,PDGT
+       --,LEVEL V_LEVEL
+       --,P_RESULT
+FROM(
+	SELECT DGT
+	      ,LAG(DGT) OVER(ORDER BY DGT) PDGT
+	      ,SUM(DGT) P_RESULT
+	FROM (
+		SELECT LEVEL DGT
+		FROM DUAL
+		CONNECT BY LEVEL <= :V_END
+	) A
+	GROUP BY ROLLUP(DGT)
+)
+CONNECT BY PRIOR DGT = PDGT
+START WITH DGT = :V_START
+
+
+;
+
+
+/*
+SELECT DGT
+FROM (SELECT LEVEL DGT
+		FROM DUAL
+		CONNECT BY LEVEL <= :V_END)
+
+WHERE ROWNUM <= 3
+GROUP BY ROLLUP(DGT)
+ORDER BY DGT ASC
+;*/
+
+
+
+

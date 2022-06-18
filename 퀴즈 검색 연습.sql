@@ -1,10 +1,15 @@
+/* CREATE VIEW V_YSB_1 AS */ -- 뷰 만들기   
+-- V_STAT_STAMP_  
+
+  
   SELECT AREA_CD
       ,CD_NM
       ,REGION_AREA
       ,C0||
       ' '||DECODE(C0,GREATEST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9), '▲')
-      ||DECODE(C0,LEAST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9),'▼')||' *'||DECODE(C0,0,:v_last)
-      ||LTRIM(DECODE(GR,'00',SUBSTR(R0,1,2),'01',SUBSTR(R0,3,2),SUBSTR(R0,5)),'0') C0 -- LTRIM으로 0 없앰
+      ||DECODE(C0,LEAST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9),'▼')||' *'
+      ||LTRIM(DECODE(GR,'00',NVL(SUBSTR(R0,1,2), D_MRK),'01',NVL(SUBSTR(R0,3,2), M_MRK),NVL(SUBSTR(R0,5), T_MRK)),'0') C0 -- MAX로 처리
+      
        ,C1||
        ' '||DECODE(C1,GREATEST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9), '▲')
       ||DECODE(C1,LEAST(C0,C1,C2,C3,C4,C5,C6,C7,C8,C9),'▼')||' *'||DECODE(C1,0,:v_last)
@@ -69,6 +74,9 @@ FROM (
         ,MIN(DECODE(PROD_ID,'100009',LPAD(D_RK,2,'0')||LPAD(M_RK,2,'0')||LPAD(T_RK,2,'0'))) R9
         ,SUM(SALE_CNT) TOT
         ,GROUPING(AREA_CD)||GROUPING(REGION_AREA) GR
+        ,MAX(D_RK)+1 D_MRK
+        ,MAX(M_RK)+1 M_MRK
+        ,MAX(T_RK)+1 T_MRK
   FROM (
     SELECT AREA_CD 
           ,REGION_AREA
@@ -85,6 +93,7 @@ FROM (
             ,SUM(SUM(SALE_CNT)) OVER(PARTITION BY AREA_CD,PROD_ID) M_CNT
             ,SUM(SUM(SALE_CNT)) OVER(PARTITION BY PROD_ID) T_CNT
       FROM SALE_TBL
+      WHERE AREA_CD = NVL(:V_AREA, AREA_CD) -- 검색 값을 안넣으면 전체
       GROUP BY AREA_CD 
               ,REGION_AREA
               ,PROD_ID
@@ -96,3 +105,10 @@ GROUP BY ROLLUP(AREA_CD,REGION_AREA)
 ORDER BY AREA_CD
         ,REGION_AREA        
 );
+
+
+/*
+||DECODE( C0, '0', SUBSTR( GREATEST( 
+                NVL(R0,0), NVL(R1,0), NVL(R2,0), NVL(R3,0), NVL(R4,0), NVL(R5,0), NVL(R6,0),
+                NVL(R7,0), NVL(R8,0), NVL(R9,0) ), 2, 1) +1 ) C0 -- LTRIM으로 0 없앰
+*/

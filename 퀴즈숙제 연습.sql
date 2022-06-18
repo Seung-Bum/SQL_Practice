@@ -1,3 +1,5 @@
+CREATE VIEW V_YSB AS *
+
 
 -- 1
 /* 
@@ -16,8 +18,31 @@ SELECT NO
 FROM ORG_TBL;
 */
 
+
 --3
-/* */
+/* 
+SELECT
+     MIN(NO) NO
+	,MIN(ST_DT) ST_DT
+	,MIN(ET_DT) ET_DT
+	,MIN(DECODE(CHA,0,ET_DT)) CHA -- 값이 없는 셀은 0이 아님 없애야함
+	,MIN(NM) NM
+FROM(
+	SELECT NO
+	      ,ST_DT
+	      ,ET_DT
+	      ,LAG(ET_DT) OVER(PARTITION BY NO ORDER BY ST_DT, ET_DT DESC) PREV -- 이전행
+	      ,LAG(ET_DT) OVER(PARTITION BY NO ORDER BY ST_DT, ET_DT DESC) - ST_DT CHA -- 시작일과 종료일이 같음
+	      ,NM
+	FROM ORG_TBL
+)
+GROUP BY ST_DT, ET_DT
+ORDER BY ST_DT, ET_DT;
+*/
+
+
+--4
+/* 
 SELECT
      MIN(NO) NO
 	,MIN(ST_DT) ST_DT
@@ -34,13 +59,17 @@ FROM(
 	FROM ORG_TBL
 )
 GROUP BY ST_DT, ET_DT
-HAVING MIN(DECODE(CHA,0,ET_DT)) IS NULL
+HAVING MIN(DECODE(CHA,0,ET_DT)) IS NULL -- NULL값을 배제
 ORDER BY ST_DT, ET_DT;
+*/
 
 
 
 
-/* 준영님 
+
+
+
+/* 준영님 */
 SELECT NO 번호
    ,MIN(ST_DT) 시작일자
    ,MAX(ET_DT) 종료일자
@@ -57,16 +86,16 @@ FROM (
          ,ET_DT
          ,NM
          ,CASE WHEN TO_CHAR(TO_DATE(ST_DT,'YYYYMMDD')- 1, 'YYYYMMDD') 
-         <=MAX(ET_DT) OVER(PARTITION BY NO ORDER BY ST_DT,ET_DT ROWS BETWEEN 
-         UNBOUNDED PRECEDING AND 1 PRECEDING)THEN 0 ELSE 1 END FLAG 
+         <=MAX(ET_DT) OVER(PARTITION BY NO ORDER BY ST_DT,ET_DT ROWS BETWEEN
+         UNBOUNDED PRECEDING AND 1 PRECEDING)THEN 0 ELSE 1 END FLAG -- 날짜가 같으면 0 다르면 1
       FROM ORG_TBL
       )
    )
 GROUP BY NO,NM, GRP
 ORDER BY NO; 
-*/
 
-/* 의수님 
+
+/* 의수님 V_WUS_1
 SELECT NO 번호
 	  ,STDATE 시작일자
 	  ,ETDATE 종료일자
