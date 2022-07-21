@@ -20,3 +20,8 @@ CREATE TABLE 사원 <br>
   입사일 DATE DEFAULT SYSDATE -- SYSDATE는 현재시간/날짜 <br>
 ) <br>
 
+
+
+
+
+
