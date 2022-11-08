@@ -1,0 +1,23 @@
+select *
+from COUNTRIES;
+
+select *
+from REGIONS;
+
+select *
+from LOCATIONS;
+
+select *
+from WAREHOUSES;
+
+select 
+  DECODE(b.WAREHOUSE_ID, NULL, 'NOT EXIST', b.WAREHOUSE_ID) AS WAREHOUSE_ID
+  ,a.ADDRESS
+  ,a.CITY
+  ,c.COUNTRY_NAME  
+from LOCATIONS a 
+left outer join WAREHOUSES b on a.LOCATION_ID = b.LOCATION_ID
+left outer join COUNTRIES c on a.COUNTRY_ID = c.COUNTRY_ID 
+WHERE ROWNUM <= 10
+ORDER BY WAREHOUSE_ID
+;
