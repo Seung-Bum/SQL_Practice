@@ -16,6 +16,20 @@ SELECT NAME
 FROM EXAM_RSLT */
 
 
+WITH EMP AS (
+    SELECT '7839' EMPNO, 'JAMES' ENAME, '30' DEPTNO FROM DUAL
+)
+
+SELECT EMPNO
+     , ENAME
+     , DEPTNO
+     , LPAD(DEPTNO, 5)      --1
+     , LPAD(DEPTNO, 5, ' ') --2
+     , LPAD(DEPTNO, 5, '0') --3
+     , LPAD(DEPTNO, 5, 'A') --4
+  FROM EMP;
+
+
 /* 주민등록번호 편집하기 
 SELECT LPAD( :IDEN, INSTR(:IDEN, '-') ) || '*******' IDENTIFITION -- 911222-*******
       ,SUBSTR(:IDEN,1,7) IDENTIFITION -- 911222-
