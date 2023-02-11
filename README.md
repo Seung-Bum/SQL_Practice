@@ -64,6 +64,24 @@ LPAD는 LEFT(왼쪽) + PADDING(채우기)의 줄임말, RPAD는 RIGHT(오른쪽)
 (3) TRIM() : 왼쪽, 오른쪽 양쪽 다 공백 삭제
 
 
+* 
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+
+* SQL 실제 실행순서
+FROM
+WHERE
+GROUP BY
+HAVING
+SELECT
+ORDER BY
+LIMIT
+
 
 
 
