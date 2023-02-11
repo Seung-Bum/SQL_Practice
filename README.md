@@ -72,7 +72,7 @@ GROUP BY <br>
 HAVING <br>
 ORDER BY <br>
 LIMIT <br>
-
+<br>
 * SQL 실제 실행순서 <br>
 FROM <br>
 WHERE <br>
